@@ -24,19 +24,12 @@ app.get('/popularMovies', async (req, res) => {
 
     if (!popularMovies) {
       console.log('making request to themoviedb\n', `${moviedb}/movie/popular?api_key=${apikey}&language=en-US&page=1`);
-
-
       const response = await get(`${moviedb}/movie/popular?api_key=${apikey}&language=en-US&page=1`);
-
-
       popularMovies = JSON.parse(response.body).results.sort((a, b) => b.popularity - a.popularity);
       cache.set('popularMovies', popularMovies, 10 * 60 * 1000); // 10 minutes
     } else {
       console.log('fetching from cache');
     }
-
-
-
     res.send(popularMovies);
   } catch (e) {
 
@@ -78,20 +71,13 @@ app.get('/findMovie', async (req, res) => {
     // const response = await get(`${moviedb}/movie/${query}?api_key=${apikey}&language=en-US`);
     // const videoResponse = await get(`${moviedb}/movie/${query}/videos?api_key=${apikey}&language=en-US`);
 
-
     const results = JSON.parse(movieResponse.body);
     results.video = JSON.parse(videoResponse.body)
       .results
       .filter(({ type, site }) => site === 'YouTube' && type === 'Trailer')
       .pop();
 
-
-
     res.send(results);
-
-
-    //https://api.themoviedb.org/3/movie/454626/videos?api_key=e922de56b43e77f334779a67e764c22d&language=en-US
-    //https://api.themoviedb.org/3/movie/419704/videos?api_key=e922de56b43e77f334779a67e764c22d&language=en-US
   } catch (e) {
     res.send(e);
     throw e;
@@ -103,9 +89,11 @@ console.log(`started server on ${PORT}...`);
 
 
 
+    //https://api.themoviedb.org/3/movie/454626/videos?api_key=e922de56b43e77f334779a67e764c22d&language=en-US
+    //https://api.themoviedb.org/3/movie/419704/videos?api_key=e922de56b43e77f334779a67e764c22d&language=en-US
 //https://api.themoviedb.org/3/movie/454626/images?api_key=e922de56b43e77f334779a67e764c22d&language=en-US
 
 // https://api.themoviedb.org/3/movie/454626/videos?api_key=e922de56b43e77f334779a67e764c22d&language=en-US
 
 
-419704
+// 419704
